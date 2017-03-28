@@ -1,4 +1,4 @@
-package vn.hn.ptit.quanghuy.view;
+
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -6,8 +6,6 @@ import java.awt.Graphics2D;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import vn.hn.ptit.quanguy.adapter.MouseAction;
 
 public class SeaView extends javax.swing.JPanel implements Runnable{
 

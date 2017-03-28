@@ -1,10 +1,7 @@
-package vn.hn.ptit.quanguy.adapter;
+
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
-import vn.hn.ptit.quanghuy.agent.BaitAgent;
-import vn.hn.ptit.quanghuy.view.SeaView;
 
 public class MouseAction implements MouseListener {
 	

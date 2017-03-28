@@ -1,4 +1,4 @@
-package vn.hn.ptit.quanghuy.agent;
+
 
 import jade.core.AID;
 import jade.core.Agent;
@@ -28,6 +28,7 @@ public class BaitAgent extends Agent {
 		msg.setLanguage("English");
 		msg.setOntology("Weather-forecast-ontology");
 		msg.setContent("Today it’s raining at :" + x + "," + y);
+		System.out.println(msg.getContent());
 		send(msg);
 	}
 	

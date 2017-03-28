@@ -1,4 +1,4 @@
-package vn.hn.ptit.quanghuy.agent;
+
 
 import jade.core.Agent;
 import jade.core.behaviours.WakerBehaviour;

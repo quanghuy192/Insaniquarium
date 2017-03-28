@@ -1,16 +1,23 @@
-package vn.hn.ptit.quanghuy.main;
+
 
 import javax.swing.JFrame;
 
-import vn.hn.ptit.quanghuy.view.SeaView;
+import jade.core.Agent;
 
-public class Insaniquation {
+public class SeaAgent extends Agent{
+
+	private static final long serialVersionUID = 4761222511545150978L;
 	
 	private static final int WIDTH = 500;
 	private static final int HEIGHT = 500;
-
-	public static void main(String[] args){
-		
+	
+	@Override
+	protected void setup() {
+		super.setup();
+		init();
+	}
+	
+	public void init(){
 		SeaView sea = new SeaView();
 		
 		JFrame mainPlay = new JFrame();
@@ -20,5 +27,5 @@ public class Insaniquation {
 		mainPlay.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainPlay.getContentPane().add(sea);
 	}
-	
+
 }
