@@ -10,11 +10,14 @@ public class SeaAgent extends Agent implements Runnable {
 
 	private static final long serialVersionUID = 4761222511545150978L;
 
-	private static final int WIDTH = 500;
-	private static final int HEIGHT = 500;
+	private static final int WIDTH = 640;
+	private static final int HEIGHT = 480;
+	
+	private static final JFrame mainPlay = new JFrame();
+	private static SeaView sea;
 	
 	int x, y;
-	private int step = 0;
+	private static int step = 0;
 	MouseAction action ;
 
 	@Override
@@ -25,16 +28,25 @@ public class SeaAgent extends Agent implements Runnable {
 	}
 
 	public void init() {
-		SeaView sea = new SeaView(this);
-		action = MouseAction.getInstance(this);
-		sea.addMouseListener(action);
+
+		sea = new SeaView(this);
 		
-		JFrame mainPlay = new JFrame();
 		mainPlay.setVisible(true);
 		mainPlay.setSize(WIDTH, HEIGHT);
 		mainPlay.setLocationRelativeTo(null);
 		mainPlay.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		action = MouseAction.getInstance(this);
 		mainPlay.getContentPane().add(sea);
+		
+		mainPlay.addMouseListener(action);
+	}
+
+	public JFrame getMainPlay() {
+		return mainPlay;
+	}
+
+	public SeaView getSea() {
+		return sea;
 	}
 
 	private class FeedBaitRequestBahavious extends CyclicBehaviour {
@@ -43,7 +55,6 @@ public class SeaAgent extends Agent implements Runnable {
 
 		@Override
 		public void action() {
-			System.out.println(step);
 			switch (step) {
 			case 0:
 				// Send request to update bait position
@@ -74,15 +85,6 @@ public class SeaAgent extends Agent implements Runnable {
 	public void sendMsgBaitPoristion(int x, int y) {
 		this.x = y;
 		this.y = y;
-		setStep(0);
-		System.out.println("---" + step);
-	}
-
-	public int getStep() {
-		return step;
-	}
-
-	public void setStep(int step) {
-		this.step = step;
+		step = 0;
 	}
 }

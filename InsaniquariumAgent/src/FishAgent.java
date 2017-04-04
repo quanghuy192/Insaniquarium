@@ -6,9 +6,6 @@ import jade.lang.acl.ACLMessage;
 
 public class FishAgent extends Agent{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3751487164232308312L;
 	
 	@Override
@@ -26,7 +23,6 @@ public class FishAgent extends Agent{
 			ACLMessage messageFeedBack = receive();
 			if(null != messageFeedBack){
 				System.out.println(messageFeedBack);
-				
 				doDelete();
 			}
 		}

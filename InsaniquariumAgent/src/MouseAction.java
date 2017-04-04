@@ -22,9 +22,13 @@ public class MouseAction implements MouseListener {
 
 		if (null != seaAgent) {
 			seaAgent.sendMsgBaitPoristion(x, y);
-			System.out.println(x + "" + y);
+			System.out.println(x + "-" + y);
 		}
-		BaitAgent bait = new BaitAgent(x, y);
+		Bait bait = new Bait(x, y, seaAgent.getMainPlay());
+		bait.setBounds(x,y,5,5);
+		Thread t = new Thread(bait);
+		seaAgent.getSea().add(bait);
+		t.start();
 	}
 
 	@Override
