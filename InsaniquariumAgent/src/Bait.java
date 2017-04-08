@@ -1,58 +1,77 @@
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Bait extends  JPanel implements Runnable{
+public class Bait extends  JPanel{
 	
-	private int x;
-	private int y;
-	private static final int SIZE = 5;
-	private static final long serialVersionUID = 6387213912470106375L;
-	private JFrame context;
-	
-	public Bait(int x, int y, JFrame context) {
-		super();
-		this.x = x;
-		this.y = y;
-		this.context = context;
-	}
-	
-	public int getX() {
-		return x;
-	}
-	public void setX(int x) {
-		this.x = x;
-	}
-	public int getY() {
-		return y;
-	}
-	public void setY(int y) {
-		this.y = y;
-	}
-	
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D g2D = (Graphics2D) g;
-		g2D.setColor(Color.WHITE);
-		g2D.drawRect(x, y, SIZE, SIZE);
-	}
-	
-	@Override
-	public void run() {
-		while(y < 480){
-			try {
-				x = RandomUtilities.getXPosition(x);
-				y++;
-				System.out.println(x + "---" + y);
-				context.repaint();
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+	public static final int WIDTH = 10;
+    public static final int HEIGHT = 10;
+
+    private int x;
+    private int y;
+
+    private int deltaX;
+    private int deltaY;
+
+    private Color color;
+    private SeaView parent;
+
+    public Bait(SeaView parent) {
+        this.parent = parent;
+        // x = parent.getWidth() / 2;
+        // y = parent.getHeight() / 2;
+
+        deltaX = RandomUtilities.random(-4, 4);
+        deltaY = RandomUtilities.random(-4, 4);
+
+        color = new Color(RandomUtilities.random(0, 255), RandomUtilities.random(0, 255), RandomUtilities.random(0, 255));
+    }
+    
+    public Bait(SeaView parent, int x, int y) {
+        this.parent = parent;
+
+        deltaX = RandomUtilities.random(-4, 4);
+        deltaY = RandomUtilities.random(-4, 4);
+
+        color = new Color(RandomUtilities.random(0, 255), RandomUtilities.random(0, 255), RandomUtilities.random(0, 255));
+    }
+
+    public void move() {
+    	/*
+        x += deltaX;
+        y += deltaY;
+
+        if (x + WIDTH > parent.getWidth()) {
+            x = parent.getWidth() - WIDTH;
+            deltaX *= -1;
+        } else if (x < 0) {
+            x = 0;
+            deltaX *= -1;
+        }
+        if (y + HEIGHT > parent.getHeight()) {
+            y = parent.getHeight() - HEIGHT;
+            deltaY *= -1;
+        } else if (y < 0) {
+            y = 0;
+            deltaY *= -1;
+        }
+        */
+    	x = RandomUtilities.getXPosition(x);
+		y++;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void paint(Graphics2D g2d) {
+
+        g2d.setColor(getColor());
+        g2d.fillOval(x, y, WIDTH, HEIGHT);
+        g2d.setColor(Color.BLACK);
+        g2d.drawOval(x, y, WIDTH, HEIGHT);
+
+    }        
+
 }

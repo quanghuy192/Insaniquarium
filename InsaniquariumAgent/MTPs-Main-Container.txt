@@ -1,1 +1,1 @@
-http://mbp-cua-huy:7778/acc
+http://mbp-cua-huy.lan:7778/acc
