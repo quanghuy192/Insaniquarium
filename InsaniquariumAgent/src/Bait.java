@@ -31,6 +31,8 @@ public class Bait extends  JPanel{
     public Bait(SeaView parent, int x, int y) {
         this.parent = parent;
 
+        this.x = x;
+        this.y = y;
         deltaX = RandomUtilities.random(-4, 4);
         deltaY = RandomUtilities.random(-4, 4);
 

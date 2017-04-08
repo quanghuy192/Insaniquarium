@@ -75,7 +75,7 @@ public class SeaView extends javax.swing.JPanel {
 		super.paintComponent(g);
 		
 		Graphics2D g2d = (Graphics2D) g.create();
-		g2d.drawImage(image, 3, 4, this);
+		g2d.drawImage(image, 0, 0, this);
 		
         for (Bait b : baits) {
             b.paint(g2d);

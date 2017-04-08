@@ -9,7 +9,7 @@ public class RandomUtilities {
 
 	public static int getXPosition(int x) {
 		int sign = r.nextInt(2);
-		return (sign % 2 == 0) ? x + 1 : x - 1;
+		return (sign % 2 == 0) ? x + 3 : x - 3;
 	}
 	
 	public static int random(int min, int max) {
