@@ -11,19 +11,19 @@ import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 
-public class SeaAgent extends Agent{
+public class SeaAgent extends Agent {
 
 	private static final long serialVersionUID = 4761222511545150978L;
 
 	private static final int WIDTH = 640;
 	private static final int HEIGHT = 480;
-	
+
 	private static JFrame mainPlay = new JFrame();
 	private static SeaView sea;
-	
+
 	int x, y;
 	private static int step = 0;
-	MouseAction action ;
+	MouseAction action;
 
 	@Override
 	protected void setup() {
@@ -33,31 +33,32 @@ public class SeaAgent extends Agent{
 	}
 
 	public void init() {
-		
-        sea = new SeaView(this);
-		action = MouseAction.getInstance(this);
-		
-		EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-                }
 
-        		mainPlay.setVisible(true);
-        		mainPlay.setSize(WIDTH, HEIGHT);
-        		mainPlay.setLayout(new BorderLayout());
-        		mainPlay.setLocationRelativeTo(null);
-        		mainPlay.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-           		mainPlay.getContentPane().add(sea);
-        		
-        		mainPlay.addMouseListener(action);
-            }
-        });
+		sea = new SeaView(this);
+		action = MouseAction.getInstance(this);
+
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException ex) {
+				}
+
+				mainPlay.setVisible(true);
+				mainPlay.setSize(WIDTH, HEIGHT);
+				mainPlay.setLayout(new BorderLayout());
+				mainPlay.setLocationRelativeTo(null);
+				mainPlay.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				mainPlay.getContentPane().add(sea);
+
+				mainPlay.addMouseListener(action);
+			}
+		});
 	}
 
-	public JFrame getMainPlay() {     
+	public JFrame getMainPlay() {
 		return mainPlay;
 	}
 
@@ -75,7 +76,7 @@ public class SeaAgent extends Agent{
 			case 0:
 				// Send request to update bait position
 				ACLMessage feedBaitRequest = new ACLMessage(ACLMessage.INFORM);
-				feedBaitRequest.setContent(x + "/" + y);
+				feedBaitRequest.setContent("fish" + "/" + x + "/" + y);
 				feedBaitRequest.addReceiver(new AID("FishAgent", AID.ISLOCALNAME));
 				send(feedBaitRequest);
 				step++;
