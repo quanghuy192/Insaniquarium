@@ -68,12 +68,10 @@ public class Bait extends  JPanel{
     }
 
     public void paint(Graphics2D g2d) {
-
         g2d.setColor(getColor());
         g2d.fillOval(x, y, WIDTH, HEIGHT);
         g2d.setColor(Color.BLACK);
         g2d.drawOval(x, y, WIDTH, HEIGHT);
-
     }        
 
 }

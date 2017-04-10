@@ -17,7 +17,7 @@ public class SeaView extends javax.swing.JPanel {
 
 	private static final int WIDTH = 640;
 	private static final int HEIGHT = 480;
-	private BufferedImage image;
+	private BufferedImage image, imgeFish;
 	private static final long serialVersionUID = 7860966868388551567L;
 	private static List<Bait> baits ;
 	
@@ -25,8 +25,10 @@ public class SeaView extends javax.swing.JPanel {
 		
 		baits = new ArrayList<>();
 		URL resource = getClass().getResource("/sea.jpg");
+		URL fishResource = getClass().getResource("/nemo.png");
 		try {
             image = ImageIO.read(resource);
+            imgeFish = ImageIO.read(fishResource);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,6 +49,7 @@ public class SeaView extends javax.swing.JPanel {
         for (Bait b : baits) {
             b.paint(g2d);
         }
+        
         g2d.dispose();
 	}
 	

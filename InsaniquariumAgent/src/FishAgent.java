@@ -7,6 +7,7 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -26,11 +27,11 @@ public class FishAgent extends Agent {
 	private int deltaY;
 
 	private Color color;
-	private SeaView parent;
+	private SeaView parentSea;
 	private Graphics2D g2d;
 
 	public FishAgent(SeaView parent, int x, int y) {
-		this.parent = parent;
+		this.parentSea = parent;
 
 		this.x = x;
 		this.y = y;
@@ -53,23 +54,39 @@ public class FishAgent extends Agent {
 		x += deltaX;
 		y += deltaY;
 
-		if (x + WIDTH > parent.getWidth()) {
-			x = parent.getWidth() - WIDTH;
+		if (x + WIDTH > parentSea.getWidth()) {
+			x = parentSea.getWidth() - WIDTH;
 			deltaX *= -1;
 		} else if (x < 0) {
 			x = 0;
 			deltaX *= -1;
 		}
-		if (y + HEIGHT > parent.getHeight()) {
-			y = parent.getHeight() - HEIGHT;
+		if (y + HEIGHT > parentSea.getHeight()) {
+			y = parentSea.getHeight() - HEIGHT;
 			deltaY *= -1;
 		} else if (y < 0) {
 			y = 0;
 			deltaY *= -1;
 		}
 
-		x = RandomUtilities.getXPosition(x);
-		y++;
+		// x = RandomUtilities.getXPosition(x);
+		// y++;
+	}
+	
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 
 	public Color getColor() {
@@ -78,7 +95,7 @@ public class FishAgent extends Agent {
 
 	public void paint(Graphics2D g2d) {
 		this.g2d = g2d;
-		g2d.drawImage(image, 0, 0, parent);
+		g2d.drawImage(image, 0, 0, parentSea);
 	}
 
 	@Override
@@ -94,7 +111,8 @@ public class FishAgent extends Agent {
 		@Override
 		public void action() {
 			ACLMessage messageFeedBack = receive();
-			if (null != messageFeedBack) {
+			if (null != messageFeedBack && messageFeedBack.getContent() != null
+					&& messageFeedBack.getContent().length() > 0) {
 				System.out.println(messageFeedBack);
 				String content = messageFeedBack.getContent();
 				String[] arrContent = content.split("/");
@@ -108,6 +126,11 @@ public class FishAgent extends Agent {
 					e.printStackTrace();
 				}
 				doDelete();
+			}else{
+				ACLMessage sendMsgToSea = new ACLMessage(ACLMessage.INFORM);
+				sendMsgToSea.setContent("sea" + "/" + "50" + "/" + "50");
+				sendMsgToSea.addReceiver(new AID("SeaAgent", AID.ISLOCALNAME));
+				send(sendMsgToSea);
 			}
 		}
 
@@ -126,51 +149,90 @@ public class FishAgent extends Agent {
 
 			int stateMoveCount = Math.abs(targetX - x) - Math.abs(targetY - y);
 			int[] binaryList = createBinary(stateMoveCount, Math.abs(targetY - y));
-			
-			
+			move(binaryList, isBackX, isBackY);
 		}
 
 		private int[] createBinary(int stateMoveCount, int k) {
-			
+
 			int[] binary = new int[stateMoveCount];
 			for (int i = 0; i < binary.length; i++) {
 				binary[i] = 0;
 			}
 			int j = stateMoveCount - 1;
-			
+
 			boolean stop = false;
-			while(!stop){
-				while(j > 0 && binary[j] > 0){
+			while (!stop) {
+				while (j > 0 && binary[j] > 0) {
 					binary[j] = 0;
 					j--;
 				}
-				
-				if(j == 0){
+
+				if (j == 0) {
 					stop = true;
-				}else{
+				} else {
 					binary[j] = 1;
 				}
-				
-				if(checkWithK(binary, k)){
+
+				if (checkWithK(binary, k)) {
 					return binary;
 				}
 			}
-			
+
 			return new int[stateMoveCount];
 		}
-		
-		private boolean checkWithK(int[] binary, int k){
-			
+
+		private boolean checkWithK(int[] binary, int k) {
+
 			int count = 0;
 			for (int i = 0; i < binary.length; i++) {
-				count+= binary[i];
+				count += binary[i];
 			}
-			
-			if(count == k){
+
+			if (count == k) {
 				return true;
 			}
-			
+
 			return false;
+		}
+
+		private void move(int[] binaryList, boolean isBackX, boolean isBackY) {
+
+			for (int i = 0; i < binaryList.length; i++) {
+
+				int deltaLocalX = 0;
+				int deltaLocalY = 0;
+
+				if (binaryList[i] == 0) {
+					deltaLocalX++;
+				}
+
+				if (binaryList[i] == 1) {
+					deltaLocalY++;
+				}
+
+				if (isBackX) {
+					x -= deltaLocalX;
+				} else {
+					x += deltaLocalX;
+				}
+
+				if (isBackY) {
+					y -= deltaLocalY;
+				} else {
+					y += deltaLocalY;
+				}
+
+				/*
+				 * if (x + WIDTH > parentSea.getWidth()) { x =
+				 * parentSea.getWidth() - WIDTH; deltaLocalX *= -1; } else if (x
+				 * < 0) { x = 0; deltaLocalX *= -1; } if (y + HEIGHT >
+				 * parentSea.getHeight()) { y = parentSea.getHeight() - HEIGHT;
+				 * deltaLocalY *= -1; } else if (y < 0) { y = 0; deltaLocalY *=
+				 * -1; }
+				 */
+
+				g2d.drawImage(image, 0, 0, parentSea);
+			}
 		}
 	}
 }

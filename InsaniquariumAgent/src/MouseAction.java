@@ -3,9 +3,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.Timer;
+
+import jade.core.Agent;
 
 public class MouseAction implements MouseListener {
 
@@ -13,8 +19,16 @@ public class MouseAction implements MouseListener {
 	private int x;
 	private int y;
 	private static SeaAgent seaAgent;
+	private static FishAgent fishAgent;
+	private BufferedImage imgeFish;
 
 	private MouseAction() {
+		URL resource = getClass().getResource("/nemo.png");
+		try {
+			imgeFish = ImageIO.read(resource);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -66,8 +80,28 @@ public class MouseAction implements MouseListener {
 		// No thing to do
 	}
 
-	public static MouseAction getInstance(SeaAgent seaAgent) {
-		MouseAction.seaAgent = seaAgent;
+	public static MouseAction getInstance(Agent agent) {
+		
+		if(agent instanceof SeaAgent){
+			MouseAction.seaAgent = (SeaAgent) agent;
+		}
+		
+		if(agent instanceof FishAgent){
+			MouseAction.fishAgent = (FishAgent) agent;
+			fishAgent.setX(-1);
+			fishAgent.setY(-1);
+			fishAgent.move();
+			seaAgent.getSea().repaint();
+		}
+		
 		return action;
+	}
+	
+	public void addFish(Agent agent) {
+		if(agent instanceof FishAgent){
+			MouseAction.fishAgent = (FishAgent) agent;
+			fishAgent.move();
+			seaAgent.getSea().repaint();
+		}
 	}
 }
