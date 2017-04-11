@@ -3,12 +3,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.Timer;
 
 import jade.core.Agent;
@@ -20,15 +16,9 @@ public class MouseAction implements MouseListener {
 	private int y;
 	private static SeaAgent seaAgent;
 	private static FishAgent fishAgent;
-	private BufferedImage imgeFish;
+	private static Timer timer;
 
 	private MouseAction() {
-		URL resource = getClass().getResource("/nemo.png");
-		try {
-			imgeFish = ImageIO.read(resource);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
@@ -46,6 +36,7 @@ public class MouseAction implements MouseListener {
 
 		if (null != seaAgent) {
 			seaAgent.setSend(true);
+			timer.stop();
 			seaAgent.sendMsgBaitPoristion(x, y);
 			System.out.println(x + "-" + y);
 		}
@@ -102,7 +93,7 @@ public class MouseAction implements MouseListener {
 				MouseAction.fishAgent = (FishAgent) agent;
 				fishAgent.createFish(seaAgent.getSea(), 20, 20);
 				seaAgent.getSea().addFish(FishAgent.fish);
-				Timer timer = new Timer(100, new ActionListener() {
+				timer = new Timer(100, new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						FishAgent.fish.move();

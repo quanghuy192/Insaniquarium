@@ -60,9 +60,6 @@ public class Fish {
 			y = 0;
 			deltaY *= -1;
 		}
-
-		// x = RandomUtilities.getXPosition(x);
-		// y++;
 	}
 	
 	public int getX() {
@@ -118,10 +115,11 @@ public class Fish {
 		for (int i = 0; i < binary.length; i++) {
 			binary[i] = 0;
 		}
-		int j = stateMoveCount - 1;
 
 		boolean stop = false;
+		
 		while (!stop) {
+			int j = stateMoveCount - 1;
 			while (j > 0 && binary[j] > 0) {
 				binary[j] = 0;
 				j--;
