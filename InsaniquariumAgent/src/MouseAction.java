@@ -45,24 +45,25 @@ public class MouseAction implements MouseListener {
 		y = e.getY();
 
 		if (null != seaAgent) {
+			seaAgent.setSend(true);
 			seaAgent.sendMsgBaitPoristion(x, y);
 			System.out.println(x + "-" + y);
 		}
 
-    	final Bait bait = new Bait(seaAgent.getSea(), x, y);
+		final Bait bait = new Bait(seaAgent.getSea(), x, y);
 		List<Bait> baits = seaAgent.getSea().getBaits();
 		baits.add(bait);
-		
-        Timer timer = new Timer(100, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for (Bait b : baits) {
-                    b.move();
-                }
-                seaAgent.getSea().repaint();
-            }
-        });
-        timer.start();
+
+		Timer timer = new Timer(500, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (Bait b : baits) {
+					b.move();
+				}
+				seaAgent.getSea().repaint();
+			}
+		});
+		timer.start();
 	}
 
 	@Override
@@ -81,24 +82,37 @@ public class MouseAction implements MouseListener {
 	}
 
 	public static MouseAction getInstance(Agent agent) {
-		
-		if(agent instanceof SeaAgent){
+
+		if (agent instanceof SeaAgent) {
 			MouseAction.seaAgent = (SeaAgent) agent;
 		}
-		
-		if(agent instanceof FishAgent){
+
+		if (agent instanceof FishAgent) {
 			addFish(agent);
 		}
-		
+
 		return action;
 	}
-	
+
 	private static void addFish(Agent agent) {
-		if(agent instanceof FishAgent){
-			MouseAction.fishAgent = (FishAgent) agent;
-			fishAgent.createFish(seaAgent.getSea(), 20, 20);
-			FishAgent.fish.move();
-			seaAgent.getSea().repaint();
+		if (agent instanceof FishAgent) {
+
+			try {
+				Thread.sleep(3000);
+				MouseAction.fishAgent = (FishAgent) agent;
+				fishAgent.createFish(seaAgent.getSea(), 20, 20);
+				seaAgent.getSea().addFish(FishAgent.fish);
+				Timer timer = new Timer(100, new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						FishAgent.fish.move();
+						seaAgent.getSea().repaint();
+					}
+				});
+				timer.start();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

@@ -27,8 +27,8 @@ public class Fish {
 
 		this.x = x;
 		this.y = y;
-		deltaX = RandomUtilities.random(-4, 4);
-		deltaY = RandomUtilities.random(-4, 4);
+		deltaX = RandomUtilities.random(-4, 4) + 1;
+		deltaY = RandomUtilities.random(-4, 4) + 2;
 
 		URL resource = getClass().getResource("/nemo.png");
 		try {
@@ -87,7 +87,11 @@ public class Fish {
 
 	public void paint(Graphics2D g2d) {
 		this.g2d = g2d;
-		g2d.drawImage(image, x, y, parentSea);
+		
+		if(null == this.g2d && null != parentSea){
+			this.g2d = (Graphics2D) parentSea.getGraphics().create();
+		}
+		this.g2d.drawImage(image, x, y, parentSea);
 	}
 	
 	public void findBait(int targetX, int targetY) {

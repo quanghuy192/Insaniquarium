@@ -20,10 +20,19 @@ public class SeaAgent extends Agent {
 
 	private static JFrame mainPlay = new JFrame();
 	private static SeaView sea;
+	private boolean isSend = false;
 
 	int x, y;
 	private static int step = 0;
 	MouseAction action;
+	
+	public boolean isSend() {
+		return isSend;
+	}
+
+	public void setSend(boolean isSend) {
+		this.isSend = isSend;
+	}
 
 	@Override
 	protected void setup() {
@@ -74,12 +83,14 @@ public class SeaAgent extends Agent {
 		public void action() {
 			switch (step) {
 			case 0:
-				// Send request to update bait position
-				ACLMessage feedBaitRequest = new ACLMessage(ACLMessage.INFORM);
-				feedBaitRequest.setContent("fish" + "/" + x + "/" + y);
-				feedBaitRequest.addReceiver(new AID("FishAgent", AID.ISLOCALNAME));
-				send(feedBaitRequest);
-				step++;
+				if(isSend){
+					// Send request to update bait position
+					ACLMessage feedBaitRequest = new ACLMessage(ACLMessage.INFORM);
+					feedBaitRequest.setContent("fish" + "/" + x + "/" + y);
+					feedBaitRequest.addReceiver(new AID("FishAgent", AID.ISLOCALNAME));
+					send(feedBaitRequest);
+					step++;
+				}
 				break;
 
 			case 1:
