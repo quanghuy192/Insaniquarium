@@ -72,16 +72,12 @@ public class SeaAgent extends Agent {
 
 		@Override
 		public void action() {
-			
-			// receive from FishAgent
-			receiveFromOtherAgent();
-			
 			switch (step) {
 			case 0:
 				// Send request to update bait position
 				ACLMessage feedBaitRequest = new ACLMessage(ACLMessage.INFORM);
 				feedBaitRequest.setContent("fish" + "/" + x + "/" + y);
-				feedBaitRequest.addReceiver(new AID("FishAgent", AID.ISLOCALNAME));
+				feedBaitRequest.addReceiver(new AID("SeaAgent", AID.ISLOCALNAME));
 				send(feedBaitRequest);
 				step++;
 				break;
@@ -99,28 +95,6 @@ public class SeaAgent extends Agent {
 				// Finish
 				doDelete();
 				break;
-			}
-		}
-
-		private void receiveFromOtherAgent() {
-			ACLMessage messageFeedBack = receive();
-			if (null != messageFeedBack && messageFeedBack.getContent() != null
-					&& messageFeedBack.getContent().length() > 0) {
-				System.out.println(messageFeedBack);
-				String content = messageFeedBack.getContent();
-				String[] arrContent = content.split("/");
-				try {
-					if (content.length() > 2 && arrContent[0].equalsIgnoreCase("sea")) {
-						int initX = Integer.parseInt(arrContent[1]);
-						int initY = Integer.parseInt(arrContent[2]);
-						
-						FishAgent fishAgent = new FishAgent(getSea(), initX, initY);
-						action.addFish(fishAgent);
-					}
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
-				}
-				doDelete();
 			}
 		}
 	}

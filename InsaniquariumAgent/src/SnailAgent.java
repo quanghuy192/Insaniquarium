@@ -3,7 +3,7 @@
 import jade.core.Agent;
 import jade.core.behaviours.WakerBehaviour;
 
-public class SnaiAgent extends Agent {
+public class SnailAgent extends Agent {
 
 	private static final long serialVersionUID = -5464460174680111772L;
 	

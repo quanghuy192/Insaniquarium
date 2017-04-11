@@ -87,20 +87,17 @@ public class MouseAction implements MouseListener {
 		}
 		
 		if(agent instanceof FishAgent){
-			MouseAction.fishAgent = (FishAgent) agent;
-			fishAgent.setX(-1);
-			fishAgent.setY(-1);
-			fishAgent.move();
-			seaAgent.getSea().repaint();
+			addFish(agent);
 		}
 		
 		return action;
 	}
 	
-	public void addFish(Agent agent) {
+	private static void addFish(Agent agent) {
 		if(agent instanceof FishAgent){
 			MouseAction.fishAgent = (FishAgent) agent;
-			fishAgent.move();
+			fishAgent.createFish(seaAgent.getSea(), 20, 20);
+			fishAgent.fish.move();
 			seaAgent.getSea().repaint();
 		}
 	}
