@@ -97,7 +97,7 @@ public class MouseAction implements MouseListener {
 		if(agent instanceof FishAgent){
 			MouseAction.fishAgent = (FishAgent) agent;
 			fishAgent.createFish(seaAgent.getSea(), 20, 20);
-			fishAgent.fish.move();
+			FishAgent.fish.move();
 			seaAgent.getSea().repaint();
 		}
 	}

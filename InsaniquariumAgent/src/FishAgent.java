@@ -1,5 +1,4 @@
 
-import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -45,7 +44,7 @@ public class FishAgent extends Agent {
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
 				}
-				doDelete();
+				// doDelete();
 			}
 		}
 	}

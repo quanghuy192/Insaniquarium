@@ -103,7 +103,7 @@ public class Fish {
 			isBackY = true;
 		}
 
-		int stateMoveCount = Math.abs(targetX - x) - Math.abs(targetY - y);
+		int stateMoveCount = Math.abs(targetX - x) + Math.abs(targetY - y);
 		int[] binaryList = createBinary(stateMoveCount, Math.abs(targetY - y));
 		move(binaryList, isBackX, isBackY);
 	}
@@ -186,8 +186,10 @@ public class Fish {
 			 * deltaLocalY *= -1; } else if (y < 0) { y = 0; deltaLocalY *=
 			 * -1; }
 			 */
-
-			g2d.drawImage(image, 0, 0, parentSea);
+			if(null == g2d && null != parentSea){
+				g2d = (Graphics2D) parentSea.getGraphics().create();
+			}
+			g2d.drawImage(image, x, y, parentSea);
 		}
 	}
 }

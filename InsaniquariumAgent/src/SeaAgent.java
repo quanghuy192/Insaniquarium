@@ -77,7 +77,7 @@ public class SeaAgent extends Agent {
 				// Send request to update bait position
 				ACLMessage feedBaitRequest = new ACLMessage(ACLMessage.INFORM);
 				feedBaitRequest.setContent("fish" + "/" + x + "/" + y);
-				feedBaitRequest.addReceiver(new AID("SeaAgent", AID.ISLOCALNAME));
+				feedBaitRequest.addReceiver(new AID("FishAgent", AID.ISLOCALNAME));
 				send(feedBaitRequest);
 				step++;
 				break;
@@ -88,12 +88,12 @@ public class SeaAgent extends Agent {
 
 			case 2:
 				// Finish
-				doDelete();
+				// doDelete();
 				break;
 
 			default:
 				// Finish
-				doDelete();
+				// doDelete();
 				break;
 			}
 		}
